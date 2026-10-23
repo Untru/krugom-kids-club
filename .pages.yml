@@ -1,0 +1,139 @@
+media:
+  input: media
+  output: /krugom-kids-club/media
+
+content:
+  - name: courses
+    label: Занятия и расписание
+    type: file
+    path: data/courses.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Название занятия
+        type: string
+        required: true
+      - name: visible
+        label: Показывать на сайте
+        type: boolean
+        description: Выключите, чтобы скрыть занятие вместе с расписанием и вариантом в анкете. Для публикации нового занятия включите этот переключатель.
+      - name: description
+        label: Краткое описание
+        type: text
+        required: true
+      - name: minAge
+        label: Возраст от (лет)
+        type: number
+        required: true
+        options: {min: 1, max: 18}
+      - name: maxAge
+        label: Возраст до (лет)
+        type: number
+        required: true
+        options: {min: 1, max: 18}
+      - name: duration
+        label: Длительность (минут)
+        type: number
+        required: true
+        options: {min: 5, max: 240}
+      - name: price
+        label: Стоимость
+        type: string
+        description: Например, «800 ₽ / занятие». Можно оставить пустым.
+      - name: sessions
+        label: Расписание этого занятия
+        type: object
+        list:
+          collapsible:
+            collapsed: false
+            summary: '{fields.days} · {fields.time}'
+        description: Добавьте строки для разных групп. Если время ещё не определено, оставьте список пустым.
+        fields:
+          - name: days
+            label: Дни недели
+            type: string
+            required: true
+            description: Например, «Пн, Ср» или «Сб».
+          - name: time
+            label: Время начала
+            type: string
+            required: true
+            pattern:
+              regex: '^([01][0-9]|2[0-3]):[0-5][0-9]$'
+              message: Укажите время в формате ЧЧ:ММ, например 17:00.
+          - name: group
+            label: Группа или примечание
+            type: string
+            description: Например, «Начинающие, 5–7 лет». Необязательно.
+      - name: category
+        label: Подпись над названием
+        type: string
+        description: Например, «ЛОГИКА И СТРАТЕГИЯ». Необязательно.
+      - name: icon
+        label: Значок или короткие буквы
+        type: string
+        description: Например, ♞, 🎨 или Aa. Если оставить пустым, появится ✳.
+      - name: color
+        label: Цвет карточки
+        type: select
+        options:
+          values:
+            - {name: purple, label: Сиреневый}
+            - {name: green, label: Зелёный}
+            - {name: orange, label: Персиковый}
+            - {name: pink, label: Розовый}
+      - name: image
+        label: Фотография
+        type: image
+        description: Необязательно. Без фотографии показывается значок.
+      - name: imageAlt
+        label: Что изображено на фотографии
+        type: string
+        description: Короткое описание для людей, использующих экранный диктор.
+      - name: button
+        label: Текст кнопки
+        type: string
+        description: Если пусто, используется «Хочу попробовать».
+
+  - name: site
+    label: Тексты, контакты и вопросы
+    type: file
+    path: data/site.json
+    format: json
+    fields:
+      - {name: title, label: Название во вкладке браузера, type: string, required: true}
+      - {name: description, label: Описание для поисковых систем, type: text, required: true}
+      - {name: intro, label: Вступительный текст, type: text, required: true}
+      - {name: coursesIntro, label: Текст рядом с заголовком кружков, type: text}
+      - {name: coursesNote, label: Примечание под карточками кружков, type: text}
+      - {name: scheduleNote, label: Примечание к расписанию, type: text}
+      - {name: aboutTitle, label: Заголовок раздела о клубе, type: text, required: true}
+      - {name: aboutText, label: Текст о клубе, type: text, required: true}
+      - name: points
+        label: Принципы клуба
+        type: object
+        list: true
+        fields:
+          - {name: title, label: Заголовок, type: string, required: true}
+          - {name: text, label: Описание, type: text, required: true}
+      - name: contacts
+        label: Контакты клуба
+        type: object
+        fields:
+          - {name: address, label: Адрес, type: text}
+          - {name: phone, label: Телефон, type: string}
+          - {name: email, label: Электронная почта, type: string}
+          - name: link
+            label: Ссылка для связи
+            type: string
+            description: Полная ссылка, начинающаяся с https://. Например, ссылка на страницу клуба.
+            pattern: '^https://.+'
+          - {name: linkLabel, label: Подпись ссылки, type: string}
+      - name: faq
+        label: Вопросы и ответы
+        type: object
+        list: true
+        fields:
+          - {name: question, label: Вопрос, type: string, required: true}
+          - {name: answer, label: Ответ, type: text, required: true}
