@@ -1,0 +1,10 @@
+{
+  "name": "krugom-kids-club",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=22" }
+}
